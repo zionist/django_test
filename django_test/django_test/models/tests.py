@@ -88,7 +88,6 @@ class TaskCaseTest(TestCase):
         сгруппировать по категориям и посчитать количество товаров в каждой категории.
         Оставить лишь категории, в которых строго больше 10 товаров
         """
-        return
         result = OrderedDict()
         for cat in Category.objects.values('id', 'name').order_by('name'):
             query = Product.objects.filter(category_id=cat['id'], price__gte=100)
@@ -98,6 +97,10 @@ class TaskCaseTest(TestCase):
         # do requests
         print("\n")
         [print("Category with >= 10 products %s. Count of products %s" % (r, len(result[r]))) for r in result.keys()]
+        self.assertEqual(len(result["cat3"]), 11)
+        self.assertEqual(len(result.keys()), 1)
+        self.assertIn(Product.objects.get(name="product 4"), result["cat3"])
+        self.assertIn(Product.objects.get(name="product 15"), result["cat3"])
 
     @override_settings(DEBUG=True)
     def test3(self):

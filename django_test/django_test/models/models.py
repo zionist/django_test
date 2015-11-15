@@ -17,3 +17,8 @@ class Item(models.Model):
     name = models.CharField('Item', max_length=100)
     active = models.BooleanField('Active', default=True)
     objects = CustomManager()
+
+
+class Person(models.Model):
+    name = models.CharField('Item', max_length=100)
+    birthday = models.DateField(null=True, blank=False)
