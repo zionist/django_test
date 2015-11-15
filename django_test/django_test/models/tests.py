@@ -66,7 +66,6 @@ class TaskCaseTest(TestCase):
         С помощью Django ORM выбрать товары, цена которых больше или равна 100 руб.,
         сгруппировать по категориям и посчитать количество товаров в каждой категории.
         """
-        return
         # we want to use ordering categories by name
         result = OrderedDict()
         # select id and name from all Categories
@@ -94,7 +93,7 @@ class TaskCaseTest(TestCase):
             # make select count request. If count of category related products >10 then we can make select * request
             if query.count() > 10:
                 result[cat['name']] = query
-        # do requests
+        # do select * requests only for category with related products count >10
         print("\n")
         [print("Category with >= 10 products %s. Count of products %s" % (r, len(result[r]))) for r in result.keys()]
         self.assertEqual(len(result["cat3"]), 11)
@@ -111,7 +110,6 @@ class TaskCaseTest(TestCase):
         •    цена.
         По возможности, минимизировать количество обращений к базе данных и количество передаваемых данных
         """
-        return
         products = Product.objects.values('name', 'category__name', 'price').order_by("category__name", "name")
         print("\n")
         [print("Name %s. Category %s. Price %d" % (p["name"], p["category__name"], p["price"])) for p in products]
