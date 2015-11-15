@@ -126,7 +126,7 @@ if DEBUG:
         'loggers': {
             'django.db.backends': {
                 'handlers': ['console'],
-                'level': 'INFO',
+                'level': 'DEBUG',
             },
         },
     }
