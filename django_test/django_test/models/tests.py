@@ -9,26 +9,26 @@ from django_test.models.models import Product
 class TaskCaseTest(TestCase):
 
     def setUp(self):
-        Category.objects.create(name="cat1")
-        Category.objects.create(name="cat2")
-        Category.objects.create(name="cat3")
-        Product.objects.create(name="product 1", price=99, category_id=1)
-        Product.objects.create(name="product 2", price=101, category_id=1)
-        Product.objects.create(name="product 3", price=102, category_id=2)
-        Product.objects.create(name="product 4", price=103, category_id=3)
-        Product.objects.create(name="product 5", price=104, category_id=3)
-        Product.objects.create(name="product 6", price=100, category_id=3)
-        Product.objects.create(name="product 7", price=98, category_id=3)
-        Product.objects.create(name="product 8", price=100, category_id=3)
-        Product.objects.create(name="product 9", price=100, category_id=3)
-        Product.objects.create(name="product 10", price=100, category_id=3)
-        Product.objects.create(name="product 11", price=100, category_id=3)
-        Product.objects.create(name="product 12", price=100, category_id=3)
-        Product.objects.create(name="product 13", price=100, category_id=3)
-        Product.objects.create(name="product 14", price=100, category_id=3)
-        Product.objects.create(name="product 15", price=100, category_id=3)
-        Item.objects.create(name="item 1", active=True)
-        Item.objects.create(name="item 2", active=True)
+        Category.objects.create(name='cat1')
+        Category.objects.create(name='cat2')
+        Category.objects.create(name='cat3')
+        Product.objects.create(name='product 1', price=99, category_id=1)
+        Product.objects.create(name='product 2', price=101, category_id=1)
+        Product.objects.create(name='product 3', price=102, category_id=2)
+        Product.objects.create(name='product 4', price=103, category_id=3)
+        Product.objects.create(name='product 5', price=104, category_id=3)
+        Product.objects.create(name='product 6', price=100, category_id=3)
+        Product.objects.create(name='product 7', price=98, category_id=3)
+        Product.objects.create(name='product 8', price=100, category_id=3)
+        Product.objects.create(name='product 9', price=100, category_id=3)
+        Product.objects.create(name='product 10', price=100, category_id=3)
+        Product.objects.create(name='product 11', price=100, category_id=3)
+        Product.objects.create(name='product 12', price=100, category_id=3)
+        Product.objects.create(name='product 13', price=100, category_id=3)
+        Product.objects.create(name='product 14', price=100, category_id=3)
+        Product.objects.create(name='product 15', price=100, category_id=3)
+        Item.objects.create(name='item 1', active=True)
+        Item.objects.create(name='item 2', active=True)
 
     def test_regex(self):
         """
@@ -73,12 +73,12 @@ class TaskCaseTest(TestCase):
             result[cat['name']] = Product.objects.filter(category_id=cat['id'], price__gte=100)
         # select all related products. We need them all, so get them all and count len in memory.
         # Do not make additional count request
-        print("\n")
-        [print("Category %s. Count of products is %s" % (r, len(result[r]))) for r in result.keys()]
-        self.assertEqual(len(result["cat1"]), 1)
-        self.assertEqual(len(result["cat2"]), 1)
-        self.assertEqual(len(result["cat3"]), 11)
-        self.assertEqual(result["cat1"][0], Product.objects.get(name="product 2"))
+        print('\n')
+        [print('Category %s. Count of products with price >= 100 is %s' % (r, len(result[r]))) for r in result.keys()]
+        self.assertEqual(len(result['cat1']), 1)
+        self.assertEqual(len(result['cat2']), 1)
+        self.assertEqual(len(result['cat3']), 11)
+        self.assertEqual(result['cat1'][0], Product.objects.get(name='product 2'))
 
     @override_settings(DEBUG=True)
     def test2(self):
@@ -94,12 +94,13 @@ class TaskCaseTest(TestCase):
             if query.count() > 10:
                 result[cat['name']] = query
         # do select * requests only for category with related products count >10
-        print("\n")
-        [print("Category with >= 10 products %s. Count of products %s" % (r, len(result[r]))) for r in result.keys()]
-        self.assertEqual(len(result["cat3"]), 11)
+        print('\n')
+        [print('Category with >= 10 products %s. Count of products with price >= 100 %s' % (r, len(result[r])))
+         for r in result.keys()]
+        self.assertEqual(len(result['cat3']), 11)
         self.assertEqual(len(result.keys()), 1)
-        self.assertIn(Product.objects.get(name="product 4"), result["cat3"])
-        self.assertIn(Product.objects.get(name="product 15"), result["cat3"])
+        self.assertIn(Product.objects.get(name='product 4'), result['cat3'])
+        self.assertIn(Product.objects.get(name='product 15'), result['cat3'])
 
     @override_settings(DEBUG=True)
     def test3(self):
@@ -110,9 +111,9 @@ class TaskCaseTest(TestCase):
         •    цена.
         По возможности, минимизировать количество обращений к базе данных и количество передаваемых данных
         """
-        products = Product.objects.values('name', 'category__name', 'price').order_by("category__name", "name")
-        print("\n")
-        [print("Name %s. Category %s. Price %d" % (p["name"], p["category__name"], p["price"])) for p in products]
+        products = Product.objects.values('name', 'category__name', 'price').order_by('category__name', 'name')
+        print('\n')
+        [print('Name %s. Category %s. Price %d' % (p['name'], p['category__name'], p['price'])) for p in products]
 
     @override_settings(DEBUG=True)
     def test4(self):
